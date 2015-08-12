@@ -17,6 +17,8 @@ class SshConnector {
         if(null === static::$instance){
             static::$instance = new SshConnector();
         }
+
+
         return static::$instance;
     }
 
@@ -45,6 +47,7 @@ class SshConnector {
      * @return mixed
      */
     public function execute_command($command){
+        /** @var TYPE_NAME $this */
         return  $this->ssh_connection->exec($command);
     }
 
@@ -79,7 +82,6 @@ class SshConnector {
         return false;
     }
 
-
     /**
      * @return mixed
      */
@@ -88,10 +90,19 @@ class SshConnector {
     }
 
     public function compile_python($file){
-        // return $this->get_directory();
 
         return $this->execute_command("python ".$this->home_folder.$file);
         // return $this->execute_command("./a.out");
+    }
+
+
+    /**
+     * compile a .java file
+     * returns the results of the compiler
+     * @return bool
+     */
+    public function compile_java($file){
+        return false;
     }
 
 

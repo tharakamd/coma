@@ -1,19 +1,21 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+class TestOne extends TestCase{
 
-class ExampleTest extends TestCase
-{
-    /**
-     * A basic functional test example.
-     *
-     * @return void
-     */
-    public function testBasicExample()
-    {
-        $this->visit('/')
-             ->see('Laravel 5');
+
+    public function test(){
+     //   $response = $this->action('GET','CompileController@compile_test');
+     //   $this->assertEquals('done',$response->getContent());
+
+        $response = $this->action('GET','CompileController@upload_file');
+        $this->assertEquals('done uploading',$response->getContent());
+
     }
+
+    public function test_compile(){
+        $response = $this->action('GET','CompileController@compile_file');
+        $this->assertEquals("hello\n",$response->getContent());
+    }
+
+
 }

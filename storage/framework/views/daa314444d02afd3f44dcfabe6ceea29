@@ -1,0 +1,81 @@
+;
+<?php $__env->startSection('title'); ?>
+    Coma - Codes
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('styleSheets'); ?>
+    .form_row{
+    padding-top: 40px;
+    }
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <div class="row "></div>
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+            <a href="<?php echo action('PagesController@assignment',$course); ?>" class="btn btn-default">Back to assignment</a>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+    <div class="row form_row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+            <?php echo Form::open(array('class'=>'','action'=>array('PagesController@upload_file','tharakamd',$course,$assignment),'id'=>'upload_form','files'=>true)); ?>
+
+            <div class="form-group">
+                <?php echo Form::label('code_path','Select source codes to upload'); ?>
+
+                <?php echo Form::file('code_path'); ?>
+
+
+            </div>
+            <?php echo Form::submit('Upload',array('class'=>'btn btn-primary btn-xs')); ?>
+
+            <?php echo Form::close(); ?>
+
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+            <?php  $user = 'tharakamd'; ?>
+            <a href="<?php echo action('PagesController@compile',compact('user','course','assignment')); ?>" class="btn btn-primary">Compile All</a>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+            <div class="row">
+                <h3><small>List of uploaded source codes</small></h3>
+            </div>
+            <div class="row">
+                <table class="table table-hover">
+                    <tr>
+                        <th>File Name</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Marks</th>
+                    </tr>
+                    <?php foreach($codes as $code): ?>
+                    <tr>
+                        <td><?php echo e($code->name); ?></td>
+                        <td><?php echo e($code->type); ?></td>
+                        <td><?php echo e($code->status); ?></td>
+                        <td><?php echo e($code->marks); ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </table>
+            </div>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+    <div class="row"> </div>
+
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <?php /*ajax form handling section*/ ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('pages.parent.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

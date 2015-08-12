@@ -75,4 +75,26 @@ class ServerCommunicator {
         $file_dir = "/$user/$subject/$assignment/";
         return $this->ssh_connector->compile_python($file_dir.$file);
     }
+
+    /**
+     * @param $command
+     * @return mixed
+     */
+    public function execute_command($command){
+        return $this->ssh_connector->execute_command($command);
+    }
+
+    /**
+     * return true if compile time errors found
+     * return false if successfully compiled
+     * @param $user
+     * @param $subject
+     * @param $assignment
+     * @param $file
+     * @return bool
+     */
+    public function check_compile_error_java($user,$subject,$assignment,$file){
+
+        return true;
+    }
 }

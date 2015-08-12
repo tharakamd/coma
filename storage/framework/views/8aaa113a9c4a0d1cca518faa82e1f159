@@ -1,0 +1,46 @@
+;
+<?php $__env->startSection('title'); ?>
+    Coma - Uploads
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('styleSheets'); ?>
+    .form_row{
+    padding-top: 40px;
+    }
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <div class="row "></div>
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 ">
+            <div class="row">
+                <h3><small>Compilation Results</small></h3>
+            </div>
+
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+            <table class="table table-hover">
+                <tr>
+                    <th>File Name</th>
+                    <th>Status</th>
+                </tr>
+                <?php foreach($codes as $code): ?>
+                    <tr>
+                        <td><?php echo e($code->name); ?></td>
+                        <td><?php echo e($code->status); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
+    </div>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('pages.parent.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

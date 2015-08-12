@@ -1,0 +1,6 @@
+;
+<?php $__env->startSection('title'); ?>
+    Coma - Contact Us
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('pages.parent.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

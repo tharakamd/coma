@@ -1,0 +1,51 @@
+;
+<?php $__env->startSection('title'); ?>
+    Coma - Assignment Creation
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('styleSheets'); ?>
+    .form_row{
+    padding-top: 40px;
+    }
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <div class="row"></div>
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+            <?php if($status): ?>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Assignment created successfully</h3>
+                    </div>
+                    <div class="panel-body">
+                        Done Uploading
+                    </div>
+                </div>
+            <?php else: ?>
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Error in creating the assignment</h3>
+                    </div>
+                    <div class="panel-body">
+                        Error Uploading
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+            <a href="<?php echo action('PagesController@assignment', $course); ?>" class="btn btn-default">Back to assignment</a>
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('pages.parent.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

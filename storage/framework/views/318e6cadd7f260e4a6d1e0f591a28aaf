@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <?php /*Bootasrap importing*/ ?>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <title>Laravel</title>
+</head>
+<body>
+    <?php echo $__env->make('pages.parent.components.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>;
+
+    <a class="btn btn-primary">Hello</a>
+
+
+    <?php /*Importing js*/ ?>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+</body>
+</html>
