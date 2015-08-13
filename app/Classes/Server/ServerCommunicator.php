@@ -59,6 +59,21 @@ class ServerCommunicator {
         return false;
     }
 
+    public function go_to_directory_special($user,$subject,$assignment,$special_folder){
+
+        $this->ftp_connector->go_to_home_folder();
+        if($this->ftp_connector->change_directory_create_if_not_exist($user)){
+            if($this->ftp_connector->change_directory_create_if_not_exist($subject)){
+                if($this->ftp_connector->change_directory_create_if_not_exist($assignment)){
+                    if($this->ftp_connector->change_directory_create_if_not_exist($special_folder)) {
+                        return true; // folders created successfully and directed in to the folder
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     /*
      * upload a file to /uesr/subject/assignment/
      */
@@ -67,6 +82,10 @@ class ServerCommunicator {
         return $this->ftp_connector->send_file($file_path,$file_name);
     }
 
+    public function upload_file_special($user,$subject,$assignment,$special_folder,$file_path,$file_name){
+        $this->go_to_directory_special($user,$subject,$assignment,$special_folder);
+        return $this->ftp_connector->send_file($file_path,$file_name);
+    }
     /*
      *  compile a python file in /user/subject/assignment/
      *  and return the results of compile
@@ -75,6 +94,36 @@ class ServerCommunicator {
         $file_dir = "/$user/$subject/$assignment/";
         return $this->ssh_connector->compile_python($file_dir.$file);
     }
+
+
+    /**
+     * @param $user
+     * @param $course
+     * @param $assignment
+     */
+    public function unzip_and_delete_test_files($user,$course,$assignment){
+        $file_dir = "~/srccodes/$user/$course/$assignment/testCases"; // the target directory
+        $file = "testFiles.zip"; // the target file
+        $this->ssh_connector->unzip($file_dir,$file); // unziping the file
+        return $this->ssh_connector->delete($file_dir,$file); // deleting the file
+
+    }
+
+    /**
+     * copy the given test code to the source code directory
+     * @param $user
+     * @param $course
+     * @param $assignment
+     * @param $test_number
+     * @return mixed
+     */
+    public function copy_test_file($user,$course,$assignment,$test_number){
+        $base_dir = "~/srccodes/$user/$course/$assignment/"; // the base directory for the files
+        $source_file = "testCases/$test_number.txt"; // the location of the current test file
+        $destination_file = "test.txt";
+        return $this->ssh_connector->copy_file($base_dir,$source_file,$destination_file); // copying the file
+    }
+
 
     /**
      * @param $command

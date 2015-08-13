@@ -27,8 +27,9 @@ class AssignmentController extends Controller
             {
                 if(Storage::disk('local')->put('testResult.csv',File::get($test_results))){// uploading the test results as 'testResults.csv' in the web server
                     $server = ServerCommunicator::getInstance(); // creating the server communicator instant
-                    if($server->upload_file($user,$course,$ass_id,storage_path().'/files/'.'testFiles.zip','testCases\testFiles.zip')){// uploading the testfiles to ftp server
-                        if($server->upload_file($user,$course,$ass_id,storage_path().'/files/'.'testResult.csv','testResults\testResult.csv')){// uploading the testresults to ftp server
+                    if($server->upload_file_special($user,$course,$ass_id,"testCases",storage_path().'/files/'.'testFiles.zip','testFiles.zip')){// uploading the testfiles to ftp server
+                        $server->unzip_and_delete_test_files($user,$course,$ass_id); // unziping and deleting the test file zip
+                        if($server->upload_file_special($user,$course,$ass_id,"testResults",storage_path().'/files/'.'testResult.csv','testResult.csv')){// uploading the testresults to ftp server
 //                           updating the database
                             if(DB::insert('insert into assignment (ass_id,name,course_id,user_name) VALUE (?,?,?,?)',array($ass_id,$ass_name,$course,$user)   )){
                                 $status = true;
@@ -38,6 +39,7 @@ class AssignmentController extends Controller
                     }
                 }
             }
+        // in a failure of the process
         $status = false;
         return view('pages.assignment.created',compact('status','course'));
     }
@@ -45,4 +47,6 @@ class AssignmentController extends Controller
     public function add_assignment($user,$course){
         return view('pages.assignment.add',compact('user','course'));
     }
+
+
 }

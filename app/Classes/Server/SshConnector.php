@@ -47,10 +47,8 @@ class SshConnector {
      * @return mixed
      */
     public function execute_command($command){
-        /** @var TYPE_NAME $this */
         return  $this->ssh_connection->exec($command);
     }
-
 
     /**
      * @param $command
@@ -82,6 +80,19 @@ class SshConnector {
         return false;
     }
 
+
+    /**
+     * go to a directory from home directory
+     * @param $location
+     * @return mixed
+     */
+    public function direct_to_location_from_home($location){
+        $this->ssh_connection->exec('cd ~/srccodes');
+        return $this->ssh_connection->exec('pwd');
+    }
+
+
+
     /**
      * @return mixed
      */
@@ -95,7 +106,6 @@ class SshConnector {
         // return $this->execute_command("./a.out");
     }
 
-
     /**
      * compile a .java file
      * returns the results of the compiler
@@ -103,6 +113,51 @@ class SshConnector {
      */
     public function compile_java($file){
         return false;
+    }
+
+    /**
+     * go to the home directory
+     * @return mixed
+     */
+    public function go_to_home_dir(){
+        return $this->execute_command('cd ~');
+    }
+
+
+
+    // used functions
+
+    /**
+     * unzip file on the current directory
+     * @param $file
+     * @return mixed
+     */
+    public function unzip($file_dir,$file){
+        return $this->execute_command("cd $file_dir && unzip -o $file");
+    }
+
+    /**
+     * delete a file in the given directory
+     * @param $file_dir
+     * @param $file
+     * @return mixed
+     */
+    public function delete($file_dir,$file){
+        return $this->execute_command("cd $file_dir && rm $file");
+    }
+
+
+    /**
+     * first go the the base directory
+     * then copy the source file in the destination file
+     * @param $base_dir
+     * @param $source
+     * @param $destination
+     * @return mixed
+     */
+    public function copy_file($base_dir,$source,$destination){
+        $command = "cd $base_dir && cp -f $source $destination "; // the command to run
+        return $this->execute_command($command); // executing the command
     }
 
 
