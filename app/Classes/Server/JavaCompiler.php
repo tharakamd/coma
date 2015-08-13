@@ -61,16 +61,13 @@ class JavaCompiler {
      * @param $class
      * @return int
      */
-    public function execute_code($user,$course,$assignment,$class,$test_cases){
-        if($this->severCommunicatior->go_to_directory($user,$course,$assignment)) { // go to the directory in ftp
-            $file_path = "srccodes/$user/$course/$assignment/$class"; // the full path of the class
-            foreach($test_cases as $test_case => $output){// iterate through test cases
-
-            }
-
-
-        }
-        return 0;
+    public function execute_code($user,$course,$assignment,$file,$test_cases){
+        $path = "~/srccodes/$user/$course/$assignment/"; // path where class and the test files are
+        $length_of_name = strlen($file); // length of the name of the file
+        $lenght_actual = $length_of_name - 5 ; // length without extention
+        $class_name = substr($file,0,$lenght_actual); // name of the class
+        $command = "cd $path && java $class_name"; // the command to execute
+        return $this->severCommunicatior->execute_command($command); // execute the java class and returns the result
     }
 
 }
