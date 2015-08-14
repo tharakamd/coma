@@ -8,7 +8,7 @@
 
 namespace App\Classes\Server;
 
-
+use DB;
 class JavaCompiler {
     private static $instance;
     private $severCommunicatior;
@@ -58,10 +58,11 @@ class JavaCompiler {
      * @param $user
      * @param $course
      * @param $assignment
-     * @param $class
+     * @param $file
      * @return int
+     * @internal param $class
      */
-    public function execute_code($user,$course,$assignment,$file,$test_cases){
+    public function execute_code($user,$course,$assignment,$file){
         $path = "~/srccodes/$user/$course/$assignment/"; // path where class and the test files are
         $length_of_name = strlen($file); // length of the name of the file
         $lenght_actual = $length_of_name - 5 ; // length without extention
@@ -69,5 +70,25 @@ class JavaCompiler {
         $command = "cd $path && java $class_name"; // the command to execute
         return $this->severCommunicatior->execute_command($command); // execute the java class and returns the result
     }
+
+    /**
+     * read the database and returns an array of names of source codes of that particular assignment
+     * @param $user
+     * @param $course
+     * @param $assignment
+     * @return array
+     */
+    public function get_source_code_list($user,$course,$assignment){
+        $codes = DB::select('select * from source_code WHERE user_name = ? and ass_id = ? and course_id = ?',array($user,$assignment,$course)); // read data from database
+        $list = array();
+        foreach($codes as $code){ // iterate through the source codes
+            array_push($list,$code->name); // add code names to an array
+        }
+        return $list; // return the array
+    }
+
+
+
+
 
 }
