@@ -95,7 +95,6 @@ class ServerCommunicator {
         return $this->ssh_connector->compile_python($file_dir.$file);
     }
 
-
     /**
      * @param $user
      * @param $course
@@ -124,7 +123,6 @@ class ServerCommunicator {
         return $this->ssh_connector->copy_file($base_dir,$source_file,$destination_file); // copying the file
     }
 
-
     /**
      * @param $command
      * @return mixed
@@ -145,5 +143,39 @@ class ServerCommunicator {
     public function check_compile_error_java($user,$subject,$assignment,$file){
 
         return true;
+    }
+
+    /**
+     * reads the string and returns an array with csv results
+     * @param $input
+     * @return array
+     */
+    public function read_csv($input){
+        return str_getcsv($input);
+    }
+
+    /**
+     * reads the relevent csv file and returns the file as a string
+     * @param $user
+     * @param $course
+     * @param $assignment
+     * @return mixed
+     */
+    public function read_csv_file($user,$course,$assignment){
+        $csv_file_path = "~/srccodes/$user/$course/$assignment/testResults"; // the csv file path
+        $csv_file = "testResult.csv";
+        $command = "cd $csv_file_path && cat $csv_file"; // command to read the file
+        return $this->execute_command($command); // execute and return the result
+    }
+
+    /**
+     * read the csv file and returns the content as an array
+     * @param $user
+     * @param $course
+     * @param $assignment
+     * @return array
+     */
+    public function get_csv_as_array($user,$course,$assignment){
+        return $this->read_csv($this->read_csv_file($user,$course,$assignment));
     }
 }
