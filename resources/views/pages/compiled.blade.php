@@ -27,11 +27,13 @@
                 <tr>
                     <th>File Name</th>
                     <th>Status</th>
+                    <th>Marks</th>
                 </tr>
                 @foreach($codes as $code)
                     <tr>
                         <td>{{$code->name}}</td>
                         <td>{{$code->status}}</td>
+                        <td>{{($code->marks)*100}}</td>
                     </tr>
                 @endforeach
             </table>

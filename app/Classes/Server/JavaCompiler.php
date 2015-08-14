@@ -9,6 +9,7 @@
 namespace App\Classes\Server;
 
 use DB;
+use App\Classes\Server\Results;
 class JavaCompiler {
     private static $instance;
     private $severCommunicatior;
@@ -21,14 +22,14 @@ class JavaCompiler {
         if(null === static::$instance){
             static::$instance = new JavaCompiler();
         }
-
-
         return static::$instance;
     }
 
+    /**
+     *
+     */
     private function __construct(){
         $this->severCommunicatior = ServerCommunicator::getInstance(); // creating a new server instances
-
     }
 
     /**
@@ -87,8 +88,43 @@ class JavaCompiler {
         return $list; // return the array
     }
 
+    /**
+     * compile codes recursively and returns results as an array of Results objects
+     * @param $user
+     * @param $course
+     * @param $assignment
+     * @return array
+     */
 
+    /*
+     * compile recursively and returns array of results
+     */
+    public function compile_recursive($user,$course,$assignment){
+        $codes = $this->get_source_code_list($user,$course,$assignment); // the source code list to compile
+        $results = array(); // array to store the results
+        $test_results = $this->severCommunicatior->get_csv_as_array($user,$course,$assignment); // get the test result array
+        foreach ($codes as $code) { // iterate through codes
+            if($this->compile_code($user,$course,$assignment,$code)){ // if code compiled
+                $code_result = new Results(true,$code); // new result instant, successfully compiled
+                $test_number = 1; // the number of the current test file
+                foreach($test_results as $test_result){ // iterate through the test cases
+                        $this->severCommunicatior->copy_test_file($user,$course,$assignment,$test_number); // moving the test files
+                        $execution_output = $this->execute_code($user,$course,$assignment,$code); // execute the code
+                        if(strcmp($execution_output,$test_result) == 0){ // if test passes
+                            $code_result->add_next_result(true); // this test case passes
+                        }else{
+                            $code_result->add_next_result(false); // this test case fails
+                        }
+                    $test_number++; // increase the test number
+                }
+                array_push($results,$code_result); // add new element to array with resutls
+            }else{// if compilation error
+                array_push($results,new Results(false,$code)); // add new element to array with status false
+            }
+        }
 
+        return $results;
+    }
 
 
 }
