@@ -55,7 +55,7 @@ return [
         'mysql' => [
             'driver'    => 'mysql',
             'host'      => 'localhost',
-            'database'  => 'coma_db',
+            'database'  => 'coma',
             'username'  => 'root',
             'password'  => '',
             'charset'   => 'utf8',

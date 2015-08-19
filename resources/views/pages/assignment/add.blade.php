@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-lg-2"></div>
         <div class="col-lg-4">
-            {!! Form::open(array('action'=>array('AssignmentController@create_assignment','tharakamd',$course),'class'=>'form-horizontal','files'=>true, 'id'  => 'create_new_assignment_form'))!!}
+            {!! Form::open(array('action'=>array('AssignmentController@create_assignment','tharakamd',$course),9,'files'=>true, 'id'  => 'create_new_assignment_form'))!!}
             <div class="form-group">
                 {!! Form::label('assignment_id','Assignment ID') !!}
                 {!! Form::text('assignment_id','',array('class'=>'form-control')) !!}

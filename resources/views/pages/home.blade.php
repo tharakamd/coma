@@ -1,4 +1,4 @@
 @extends('pages.parent.master');
 @section('title')
-    Coma - Home
+    Coma - Contact Us
 @stop

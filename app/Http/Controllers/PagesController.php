@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Classes\Server\Compiler;
 use App\Classes\Server\ServerCommunicator;
 use Carbon\Carbon;
+use App\Classes\Server\JavaCompiler;
 use App\Http\Requests\CreateAssignmentRequest;
 use Request;
 use Storage;
@@ -17,17 +18,22 @@ use Input;
 
 class PagesController extends Controller
 {
+
+    public function showLoging(){
+        return view('auth.login');
+    }
+
+    public function showSignup(){
+        return view('auth.register');
+    }
+
+
     public function contact(){
         return view('pages.contact');
     }
 
     public function home(){
         return view('pages.home');
-    }
-
-    public function courses(){
-        $courses = DB::select('select * from course WHERE user_name = ?' , ['tharakamd']);
-        return view('pages.courses',compact('courses'));
     }
 
     public function assignment($course){
@@ -68,15 +74,20 @@ class PagesController extends Controller
     }
 
     public function compile($user,$course,$assignment){
-        $compiler = Compiler::getInstance(); // new compiler instance to compile the file
-        $codes = DB::select('select * from source_code WHERE course_id = ? AND ass_id = ? AND user_name = ?', array($course,$assignment,$user));
+
+        $java_compiler = JavaCompiler::getInstance(); // java compiler instance
+        $results = $java_compiler->compile_recursive($user,$course,$assignment); // compile and get the results
+        $codes = DB::select('select * from source_code WHERE course_id = ? AND ass_id = ? AND user_name = ?', array($course,$assignment,$user)); // get the list of codes
+        $number = 0;
         foreach($codes as $code){
-            $result = $compiler->compile($user,$course,$assignment,$code->name,'java'); // compile and get the result
-              if($result){
-                  $code->status = 'compiled';
-              }else {
-                  $code->status = 'compilation error';
-              }
+            $result = $results[$number]; // get the related marks to current code
+            if($result->is_compiled()){ // update the status of the code
+                $code->status = 'compiled';
+            }else{
+                $code->status = 'compilation error';
+            }
+            $code->marks = $result->get_marks(); // update the marks of the code
+
         }
         return view('pages.compiled',compact('codes'));
     }

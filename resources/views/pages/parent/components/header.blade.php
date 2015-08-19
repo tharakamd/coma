@@ -17,7 +17,7 @@
                 <li><a href="{!! action('PagesController@contact') !!}">Contact</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">LogOut</a></li>
+                <li><a href="{!! action('Auth\AuthController@getLogout') !!}">LogOut</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
