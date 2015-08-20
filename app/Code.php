@@ -4,10 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class course extends Model
+class Code extends Model
 {
-    protected $table = 'course';
-    public $primaryKey = 'course_id';
+    protected $table = 'code';
+    public $primaryKey = 'code_id';
     public $timestamps = false;
-
 }

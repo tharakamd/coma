@@ -1,6 +1,6 @@
 @extends('pages.parent.master');
 @section('title')
-    Coma - Projects
+    Coma - Coueses
 @stop
 @section('styleSheets')
     .course_list{
@@ -19,12 +19,12 @@
                 <h3><small>Select or add a course</small></h3>
             </div>
             <div class="row add_new">
-                <a class="btn btn-primary " href="#">Add New</a>
+                <a class="btn btn-primary " href="{!! action('CourseController@addCourse') !!}">Add New</a>
             </div>
             <div class="row course_list">
                 <div class="list-group">
                     @foreach($courses as $course )
-                    <a href="{!! action('PagesController@assignment',[$course->course_id]) !!}" class="list-group-item"><strong>{{$course->course_id}}</strong> - {{ $course->name }}</a>
+                    <a href="{!! action('AssignmentController@listAssignments',[$course->course_id]) !!}" class="list-group-item"><strong>{{$course->course_id}}</strong> - {{ $course->name }}</a>
                     @endforeach
                 </div>
             </div>

@@ -10,6 +10,7 @@ namespace App\Classes\Server;
 
 use DB;
 use App\Classes\Server\Results;
+use App\Code;
 class JavaCompiler {
     private static $instance;
     private $severCommunicatior;
@@ -80,7 +81,10 @@ class JavaCompiler {
      * @return array
      */
     public function get_source_code_list($user,$course,$assignment){
-        $codes = DB::select('select * from source_code WHERE user_name = ? and ass_id = ? and course_id = ?',array($user,$assignment,$course)); // read data from database
+        $codes = Code::where('user_id',$user)
+            ->where('assignment_id',$assignment)
+            ->where('course_id',$course)
+            ->get(); // getting the codes list
         $list = array();
         foreach($codes as $code){ // iterate through the source codes
             array_push($list,$code->name); // add code names to an array

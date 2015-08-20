@@ -1,6 +1,6 @@
 @extends('pages.parent.master');
 @section('title')
-    Coma - Assignment Creation
+    Coma - Course Creation
 @stop
 @section('styleSheets')
     .form_row{
@@ -16,10 +16,10 @@
             @if($status)
                 <div class="panel panel-success">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Assignment created successfully</h3>
+                        <h3 class="panel-title">Course created successfully</h3>
                     </div>
                     <div class="panel-body">
-                        Done Uploading
+                        Done Creating
                     </div>
                 </div>
             @else
@@ -28,7 +28,7 @@
                         <h3 class="panel-title">Error in creating the assignment</h3>
                     </div>
                     <div class="panel-body">
-                        Error Uploading
+                        Error Creating
                     </div>
                 </div>
             @endif
@@ -38,7 +38,7 @@
     <div class="row">
         <div class="col-lg-4"></div>
         <div class="col-lg-4">
-            <a href="{!! action('AssignmentController@listAssignments', $course) !!}" class="btn btn-default">Back to assignment</a>
+            <a href="{!! action('CourseController@listCourses') !!}" class="btn btn-default">Back to courses</a>
         </div>
         <div class="col-lg-4"></div>
     </div>
