@@ -2,3 +2,6 @@
 @section('title')
     Coma - Contact Us
 @stop
+@section('content')
+
+@stop

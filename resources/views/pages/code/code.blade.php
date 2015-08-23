@@ -3,8 +3,11 @@
     Coma - Codes
 @stop
 @section('styleSheets')
+    .control{
+    padding-top:10px
+    }
     .form_row{
-    padding-top: 40px;
+        padding-top: 20px
     }
 @stop
 @section('content')
@@ -12,31 +15,30 @@
     <div class="row">
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
-            <a href="{!! action('AssignmentController@listAssignments',$course) !!}" class="btn btn-default">Back to assignment</a>
-        </div>
-        <div class="col-lg-2"></div>
-    </div>
-    <div class="row form_row">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-8">
-            {!! Form::open(array('class'=>'','action'=>array('CodeController@uploadFile',$course,$assignment),'id'=>'upload_form','files'=>true)) !!}
-            <div class="form-group">
-                {!! Form::label('code_path','Select source codes to upload') !!}
-                {!! Form::file('code_path') !!}
-
+            <div class="row">
+                <h3><small><strong>Select or add a source code</strong></small></h3>
             </div>
-            {!! Form::submit('Upload',array('class'=>'btn btn-primary btn-xs')) !!}
-            {!! Form::close() !!}
-        </div>
-        <div class="col-lg-2"></div>
-    </div>
-    <div class="row">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-8">
+            <div class="row control">
             <a href="{!! action('CodeController@compileAll',compact('course','assignment')) !!}" class="btn btn-primary">Compile All</a>
+            <a href="{!! action('AssignmentController@listAssignments',$course) !!}" class="btn btn-default">Back to assignment</a>
+            </div>
+            <div class="row form_row">
+                    {!! Form::open(array('class'=>'form-inline','action'=>array('CodeController@uploadFile',$course,$assignment),'id'=>'upload_form','files'=>true)) !!}
+                    <div class="form-group">
+                        {!! Form::label('code_path','Select source codes to upload') !!}
+                        {!! Form::file('code_path',array('class'=>'')) !!}
+
+                    </div>
+                <br>
+                <br>
+                {!! Form::submit('Upload',array('class'=>'btn btn-default')) !!}
+                    {!! Form::close() !!}
+            </div>
         </div>
         <div class="col-lg-2"></div>
+
     </div>
+
     <div class="row">
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
@@ -45,14 +47,14 @@
             </div>
             <div class="row">
                 <table class="table table-hover">
-                    <tr>
+                    <tr class="active">
                         <th>File Name</th>
                         <th>Type</th>
                         <th>Status</th>
                         <th>Marks</th>
                     </tr>
                     @foreach($codes as $code)
-                    <tr>
+                    <tr class="warning">
                         <td>{{$code->name}}</td>
                         <td>{{$code->type}}</td>
                         <td>{{$code->status}}</td>

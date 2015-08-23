@@ -14,19 +14,13 @@
     <div class="row "></div>
     <div class="row">
         <div class="col-lg-2"></div>
-        <div class="col-lg-8">
-            <a href="{!! action('CourseController@listCourses') !!}" class="btn btn-default">Back to course</a>
-        </div>
-        <div class="col-lg-2"></div>
-    </div>
-    <div class="row">
-        <div class="col-lg-2"></div>
         <div class="col-lg-8 ">
             <div class="row">
-                <h3><small>Select or add an assignment</small></h3>
+                <h3><small><strong>Select or add an assignment</strong></small></h3>
             </div>
             <div class="row add_new">
                 <a href="{!! action('AssignmentController@addAssignment',$course) !!}" class="btn btn-primary">Add New</a>
+                <a href="{!! action('CourseController@listCourses') !!}" class="btn btn-default">Back to courses</a>
             </div>
             <div class="row course_list">
                 <div class="list-group">
