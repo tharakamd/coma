@@ -60,7 +60,20 @@ class AssignmentController extends Controller
         return view('pages.assignment.created',compact('status','course'));
     }
 
-
+    public function removeAssignment($course,$assignment){
+        $user = Auth::user(); // authenticated user
+        $assignment_object = Assignment::where('user_id',$user->id)
+            ->where('course_id',$course)
+            ->where('assignment_id',$assignment)
+            ->delete(); // read data from database
+        $server = ServerCommunicator::getInstance(); // the server communicator object
+        $server->delete_assignment($user->id,$course,$assignment); // deleting the assignment folder form the remote server
+        // showing the assignment page
+        $assignments =  Assignment::where('user_id',$user->id)
+            ->where('course_id',$course)
+            ->get(); // read data from the database
+        return view('pages.assignment.assignment',compact('assignments','course'));
+    }
 
     public function addAssignment($course){
         return view('pages.assignment.add',compact('course'));

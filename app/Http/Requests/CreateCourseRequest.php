@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CreateCourseRequest extends Request
 {
@@ -23,8 +24,9 @@ class CreateCourseRequest extends Request
      */
     public function rules()
     {
+        $user = Auth::user(); // the authenticated user
         return [
-            'course_id' => 'required',
+            'course_id' => "required|unique:course,course_id,NULL,course_id,user_id,$user->id",
             'course_name' => 'required',
         ];
     }

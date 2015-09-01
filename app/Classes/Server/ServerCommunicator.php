@@ -59,8 +59,15 @@ class ServerCommunicator {
         return false;
     }
 
+    /**
+     * go the the folder starting from the assignment folder
+     * @param $user
+     * @param $subject
+     * @param $assignment
+     * @param $special_folder
+     * @return bool
+     */
     public function go_to_directory_special($user,$subject,$assignment,$special_folder){
-
         $this->ftp_connector->go_to_home_folder();
         if($this->ftp_connector->change_directory_create_if_not_exist($user)){
             if($this->ftp_connector->change_directory_create_if_not_exist($subject)){
@@ -74,6 +81,24 @@ class ServerCommunicator {
         return false;
     }
 
+    /**
+     * upload the code zip file in the the relevant folder
+     * unzip the file
+     * delete zip file
+     * @param $user
+     * @param $subject
+     * @param $assignment
+     * @param $file_path
+     * @param $file_name
+     */
+    public function upload_code_zip($user,$subject,$assignment,$file_path){
+        $file_name = 'codes.zip'; // this is used as the file name for the zip file
+        $this->upload_file($user,$subject,$assignment,$file_path,$file_name); // uploading the zip file in the remote server
+        $file_dir = "~/srccodes/$user/$subject/$assignment/" ; // the file directory in remote server
+        $this->ssh_connector->unzip($file_dir,$file_name); // unziping the file
+        $this->ssh_connector->delete($file_dir,$file_name); // deleting the file
+        return true;
+    }
     /*
      * upload a file to /uesr/subject/assignment/
      */
@@ -106,6 +131,62 @@ class ServerCommunicator {
         $this->ssh_connector->unzip($file_dir,$file); // unziping the file
         return $this->ssh_connector->delete($file_dir,$file); // deleting the file
 
+    }
+
+    /**
+     * delete a given assignment folder from remote server
+     * @param $user
+     * @param $course
+     * @param $assignment
+     */
+    public function delete_assignment($user,$course,$assignment){
+        $dir = "~/srccodes/$user/$course"; // the directory where the folder is in
+        $this->ssh_connector->delete_folder($dir,$assignment); // remove the assignment directory
+    }
+
+    /**
+     *
+     * remove the given course directory
+     * @param $user
+     * @param $course
+     */
+    public function delete_course($user,$course){
+        $dir = "~/srccodes/$user"; // go to the directory
+        $this->ssh_connector->delete_folder($dir,$course); // remove the course directory
+    }
+
+    /**
+     * delete the file at the given assignment folder
+     * @param $user
+     * @param $course
+     * @param $assignment
+     * @param $file
+     * @return mixed
+     */
+    public function delete_file($user,$course,$assignment,$file){
+        $file_dir = "~/srccodes/$user/$course/$assignment"; // directory of the file
+        return $this->ssh_connector->delete($file_dir,$file); // deleting the file
+    }
+
+    /**
+     * returns an array of files with the given type in the assignment folder
+     * @param $user
+     * @param $course
+     * @param $assignment
+     * @param $type
+     */
+    public function get_file_list($user,$course,$assignment,$type){
+        $folder_dir = "~/srccodes/$user/$course/$assignment"; // the assignment directory
+        $command = "cd $folder_dir && find *$type"; // the command to execute
+        $output = $this->execute_command($command); // execute command to find files
+        $list = explode($type,$output); // split by new line characters
+        $final_list = array();
+        foreach($list as $list_items){ // updating the list with file types
+            $list_items = trim($list_items.$type);
+            array_push($final_list,$list_items);
+        }
+        unset($final_list[sizeof($final_list)-1]); // removing the last element of the array
+        return $final_list; // returns the list
     }
 
     /**

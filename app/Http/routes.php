@@ -23,21 +23,23 @@ Route::get('/contact','PagesController@contact');
 
 
 // Code routers
-Route::get('/code/{course}/{assignment}','CodeController@listCodes');
-Route::post('/upload/{course}/{assignment}','CodeController@uploadFile');
-Route::get('/compile/{course}/{assignment}','CodeController@compileAll');
-
+Route::get('/code/{course}/{assignment}',['middleware'=>'auth','uses'=>'CodeController@listCodes']);
+Route::post('/upload/{course}/{assignment}',['middleware'=>'auth','uses'=>'CodeController@uploadFile']);
+Route::post('/uploadZip/{course}/{assignment}',['middleware'=>'auth','uses'=>'CodeController@uploadZipFile']);
+Route::get('/compile/{course}/{assignment}',['middleware'=>'auth','uses'=>'CodeController@compileAll']);
+Route::get('/remove/code/{course}/{assignment}/{code}',['middleware'=>'auth','uses'=>'CodeController@removeCode']);
 
 // Assignment routers
-Route::get('/assignment/{course}','AssignmentController@listAssignments');
-Route::get('/add/assignment/new/{course}','AssignmentController@addAssignment');
-Route::post('/add/assignment/create/{course}','AssignmentController@createAssignment');
-
+Route::get('/assignment/{course}',['middleware'=>'auth','uses'=>'AssignmentController@listAssignments']);
+Route::get('/add/assignment/new/{course}',['middleware'=>'auth','uses'=>'AssignmentController@addAssignment']);
+Route::post('/add/assignment/create/{course}',['middleware'=>'auth','uses'=>'AssignmentController@createAssignment']);
+Route::get('/remove/assignment/{course}/{assignment}',['middleware'=>'auth','uses'=>'AssignmentController@removeAssignment']);
 
 // Course routers
 Route::get('/course',['middleware'=>'auth','uses'=>'CourseController@listCourses']);
 Route::get('/add/course/',['middleware'=>'auth','uses'=>'CourseController@addCourse']);
 Route::post('/add/course/create',['middleware'=>'auth','uses'=>'CourseController@createCourse']);
+Route::get('/remove/course/{course}',['middleware'=>'auth','uses'=>'CourseController@removeCourse']);
 
 
 // Authentication routes...

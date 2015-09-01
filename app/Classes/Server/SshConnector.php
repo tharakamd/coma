@@ -80,7 +80,6 @@ class SshConnector {
         return false;
     }
 
-
     /**
      * go to a directory from home directory
      * @param $location
@@ -91,13 +90,22 @@ class SshConnector {
         return $this->ssh_connection->exec('pwd');
     }
 
-
-
     /**
      * @return mixed
      */
     public function get_directory(){
         return $this->execute_command("pwd");
+    }
+
+    /**
+     * remove the give n folder in the given directory
+     * @param $dir
+     * @param $folder
+     * @return mixed
+     */
+    public function delete_folder($dir,$folder){
+        $command = "cd $dir && rm -r $folder"; // go the the directory and remove recursively
+        return $this->execute_command($command);
     }
 
     public function compile_python($file){

@@ -29,6 +29,31 @@ class CodeController extends Controller
         return view('pages.code.code',compact('course','assignment','codes','user'));
     }
 
+    public function uploadZipFile($course,$assignment){
+        $user = Auth::user(); // current authenticated user
+        $file = Request::file('file_path'); // the file to upload
+        $file_name = 'codes.zip'; // the final name of the file
+        if(Storage::disk('local')->put($file_name,File::get($file))){ // uploading the file to web servers
+            $server = ServerCommunicator::getInstance(); // new server object
+            if($server->upload_code_zip($user->id,$course,$assignment,storage_path().'/files/'.$file_name)){ // uploading it to remote server and unzip file
+               $file_list = $server->get_file_list($user->id,$course,$assignment,'.java'); // the list of uploaded files
+                foreach($file_list as $single_file){ // iterating through files
+                    $code = new Code();
+                    $code->name = $single_file;
+                    $code->type = 'java';
+                    $code->status = 'uploded';
+                    $code->marks = 0;
+                    $code->assignment_id = $assignment;
+                    $code->course_id = $course;
+                    $code ->user_id = $user->id;
+                    $code->save(); // adding new entry to the database
+                }
+                return view('pages.code.uploaded',array('status'=>'done','assignment'=>$assignment,'course'=>$course));
+            }
+        }
+        return view('pages.uploaded',array('status'=>'fail','assignment'=>$assignment,'course'=>$course));
+    }
+
     public function uploadFile($course,$assignment){
         $user = Auth::user(); // current authenticated user
         $file = Request::file('code_path');
@@ -55,6 +80,24 @@ class CodeController extends Controller
         return view('pages.uploaded',array('status'=>'fail','assignment'=>$assignment,'course'=>$course));
     }
 
+    public function removeCode($course,$assignment,$code){
+        $user = Auth::user(); // get the authenticated user
+        $code_object = Code::where('user_id',$user->id)
+            ->where('course_id',$course)
+            ->where('assignment_id',$assignment)
+            ->where('code_id',$code)
+            ->get(); // getting the current code object
+        $server = ServerCommunicator::getInstance(); // new server object
+        $server->delete_file($user->id,$course,$assignment,$code_object[0]->name); // deleting the file from the server
+        $code_object[0]->delete(); // deleting the code data from database
+
+        $codes = Code::where('user_id',$user->id)
+            ->where('course_id',$course)
+            ->where('assignment_id',$assignment)
+            ->get();
+        return view('pages.code.code',compact('course','assignment','codes','user'));
+    }
+
     public function compileAll($course,$assignment){
         $user = Auth::user();
         $java_compiler = JavaCompiler::getInstance(); // java compiler instance
@@ -73,7 +116,12 @@ class CodeController extends Controller
             }
             $code->marks = ($result->get_marks())*100; // update the marks of the code
             $code->save(); // adding it to database
+            $number++; // increase the result number
         }
-        return view('pages.code.compiled',compact('codes','course','assignment'));
+        $codes = Code::where('user_id',$user->id)
+            ->where('course_id',$course)
+            ->where('assignment_id',$assignment)
+            ->get();
+        return view('pages.code.code',compact('course','assignment','codes','user'));
     }
 }
