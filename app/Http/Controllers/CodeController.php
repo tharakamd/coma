@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Code;
+use Maatwebsite\Excel\Facades\Excel;
 use Request;
 use Storage;
 use File;
@@ -17,6 +18,7 @@ use Input;
 use Illuminate\Support\Facades\Auth;
 use App\Classes\Server\ServerCommunicator;
 use App\Classes\Server\JavaCompiler;
+
 
 class CodeController extends Controller
 {
@@ -124,4 +126,40 @@ class CodeController extends Controller
             ->get();
         return view('pages.code.code',compact('course','assignment','codes','user'));
     }
+
+    public function generateExcell($course,$assignment,$ext){
+        $user = Auth::user(); // the current authenticated user
+
+        // generating the result array
+        $results = array(
+            array('File Name','Type','Status','Marks')
+        );
+        $codes = Code::where('user_id',$user->id)
+            ->where('course_id',$course)
+            ->where('assignment_id',$assignment)
+            ->get(); // getting the codes
+        foreach($codes as $code){
+            array_push($results,array($code->name,$code->type,$code->status,$code->marks));
+        }
+
+        Excel::create('filename', function($excel) use($results){
+            // Set the title
+            $excel->setTitle('The title');
+            // Chain the setters
+            $excel->setCreator('Coma')
+                ->setCompany('Coma');
+            // Call them separately
+            $excel->setDescription('This excell file is created by Coma automated code evaluator !!!');
+
+            // creating the new sheet
+            $excel->sheet('sheet one', function($sheet) use($results){
+                    $sheet->fromModel($results);
+            });
+
+
+        })->export($ext); // creating a new excell instance
+
+    }
+
+
 }

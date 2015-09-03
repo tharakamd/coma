@@ -26,8 +26,8 @@ class CreateCourseRequest extends Request
     {
         $user = Auth::user(); // the authenticated user
         return [
-            'course_id' => "required|unique:course,course_id,NULL,course_id,user_id,$user->id",
-            'course_name' => 'required',
+            'course_id' => "required|unique:course,course_id,NULL,course_id,user_id,$user->id|max:10",
+            'course_name' => 'required|max:50',
         ];
     }
 }

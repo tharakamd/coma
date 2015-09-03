@@ -56,7 +56,7 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="add_assignment_model" tabindex="-1" role="dialog" aria-labelledby="mymodel">
+    <div class="modal" id="add_assignment_model" tabindex="-1" role="dialog" aria-labelledby="mymodel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -68,22 +68,22 @@
                     <div class="form-group">
                         {!! Form::label('assignment_id','Assignment ID') !!}
                         {!! Form::text('assignment_id','',array('class'=>'form-control')) !!}
-                        <span class="help-block">{{ $errors->first('assignment_id') }}</span>
+                        <span class="help-block" id="id_err">{{ $errors->first('assignment_id') }}</span>
                     </div>
                     <div class="form-group">
                         {!! Form::label('assignment_name','Assignment Name') !!}
                         {!! Form::text('assignment_name','',array('class'=>'form-control')) !!}
-                        <span class="help-block">{{ $errors->first('assignment_name') }}</span>
+                        <span class="help-block" id="name_err">{{ $errors->first('assignment_name') }}</span>
                     </div>
                     <div class="form-group">
                         {!! Form::label('test_cases','Test files as a zip file') !!}
                         {!! Form::file('test_cases') !!}
-                        <span class="help-block">{{ $errors->first('test_cases') }}</span>
+                        <span class="help-block" id="case_err">{{ $errors->first('test_cases') }}</span>
                     </div>
                     <div class="form-group">
                         {!! Form::label('test_results','Test results as a coma separate file') !!}
                         {!! Form::file('test_results') !!}
-                        <span class="help-block">{{ $errors->first('test_results') }}</span>
+                        <span class="help-block" id="res_err">{{ $errors->first('test_results') }}</span>
                     </div>
 
                 </div>
@@ -99,3 +99,18 @@
 
 @stop
 
+
+@section('scripts')
+    <script>
+        $(document).ready(function () {
+            var err1 = $("#id_err").text(); // the text of the error message one
+            var err2 = $("#name_err").text(); // the text of the error message two
+            var err3 = $("#case_err").text(); // the text of the error message three
+            var err4 = $("#res_err").text(); // the text of the error message four
+            console.log(err1);
+            if((err1.localeCompare("")!=0)||(err2.localeCompare("")!=0)||(err3.localeCompare("")!=0)||(err4.localeCompare("")!=0)){ // if the error one is not empty
+                $("#add_assignment_model").modal("show");
+            }
+        });
+    </script>
+@stop

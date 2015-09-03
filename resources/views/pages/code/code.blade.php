@@ -20,7 +20,18 @@
             </div>
             <div class="row control">
             <a href="{!! action('CodeController@compileAll',compact('course','assignment')) !!}" class="btn btn-primary">Compile All</a>
-            <a href="{!! action('AssignmentController@listAssignments',$course) !!}" class="btn btn-default">Back to assignment</a>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Download Results <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+
+                        <li><a href="{!! action('CodeController@generateExcell',[$course,$assignment,'xlsx']) !!}">Excel(.xlxs)</a></li>
+                        <li><a href="{!! action('CodeController@generateExcell',[$course,$assignment,'csv']) !!}">Comma Separated File(.csv)</a></li>
+                        <li><a href="{!! action('CodeController@generateExcell',[$course,$assignment,'pdf']) !!}">PDF(.pdf)</a></li>
+                    </ul>
+                </div>
+                <a href="{!! action('AssignmentController@listAssignments',$course) !!}" class="btn btn-default">Back to assignment</a>
             </div>
             <div class="row form_row">
                 <div class="col-lg-6">

@@ -34,7 +34,6 @@ class CourseController extends Controller
             ->delete(); // delete  data from database
         $courses = course::where('user_id',$user->id)->get(); // read course details
         return view('pages.course.courses',compact('courses'));
-
     }
 
     public function createCourse(CreateCourseRequest $request){ // add new course to database
@@ -45,6 +44,7 @@ class CourseController extends Controller
         $course->user_id = $user->id;
         $course->save();
         $status = true; // the status of the process
-        return view('pages.course.success',compact('status'));
+        $courses = course::where('user_id',$user->id)->get(); // read course details
+        return view('pages.course.courses',compact('courses'));
     }
 }
