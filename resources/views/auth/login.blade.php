@@ -43,6 +43,7 @@
             {!! Form::close() !!}
             <div class="row">
                 <p>Don't have an account yet ? <a href="{!! action('Auth\AuthController@postRegister') !!}">Register</a> now in Coma</p>
+                <p>Forgot your password ? <a href="{!! action('Auth\PasswordController@postEmail') !!}">Reset</a> now</p>
             </div>
             </div>
         </div>

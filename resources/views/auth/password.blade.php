@@ -27,6 +27,8 @@
                 </div>
                 <div class="form-group">
                     {!! Form::submit('Send password reset link',array('class'=>'btn btn-primary')) !!}
+
+                    <a href="{!! action('Auth\AuthController@postLogin') !!}" class="btn btn-default">Back to login</a>
                 </div>
                 {!! Form::close() !!}
             </div>

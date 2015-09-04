@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'driver' => 'mailgun',
+    'driver' => env('MAIL_DRIVER', 'smtp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'host' => 'smtp.mailgun.org',
+    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => env('MAIL_FROM'), 'name' => env('MAIL_NAME')],
+    'from' => ['address' => null, 'name' => null],
 
     /*
     |--------------------------------------------------------------------------
@@ -120,5 +120,7 @@ return [
     */
 
     'pretend' => false,
+
+
 
 ];

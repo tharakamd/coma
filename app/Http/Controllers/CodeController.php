@@ -18,6 +18,8 @@ use Input;
 use Illuminate\Support\Facades\Auth;
 use App\Classes\Server\ServerCommunicator;
 use App\Classes\Server\JavaCompiler;
+use App\Http\Requests\uploadSingleCode;
+use App\Http\Requests\uploadBulkCode;
 
 
 class CodeController extends Controller
@@ -31,9 +33,9 @@ class CodeController extends Controller
         return view('pages.code.code',compact('course','assignment','codes','user'));
     }
 
-    public function uploadZipFile($course,$assignment){
+    public function uploadZipFile(uploadBulkCode $request,$course,$assignment){
         $user = Auth::user(); // current authenticated user
-        $file = Request::file('file_path'); // the file to upload
+        $file = $request->file('file_path'); // the file to upload
         $file_name = 'codes.zip'; // the final name of the file
         if(Storage::disk('local')->put($file_name,File::get($file))){ // uploading the file to web servers
             $server = ServerCommunicator::getInstance(); // new server object
@@ -56,9 +58,9 @@ class CodeController extends Controller
         return view('pages.uploaded',array('status'=>'fail','assignment'=>$assignment,'course'=>$course));
     }
 
-    public function uploadFile($course,$assignment){
+    public function uploadFile(uploadSingleCode $request,$course,$assignment){
         $user = Auth::user(); // current authenticated user
-        $file = Request::file('code_path');
+        $file = $request->file('code_path');
         $extension = $file->getClientOriginalExtension();
         $file_actual_name = $file-> getClientOriginalName();
         if(Storage::disk('local')->put($file_actual_name ,  File::get($file))) // uploading the file to web server

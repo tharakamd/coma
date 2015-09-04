@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class uploadSingleCode extends Request
+class uploadBulkCode extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class uploadSingleCode extends Request
     public function rules()
     {
         return [
-          'code_path' => 'required'
+            'file_path' => 'required|mimes:zip'
         ];
     }
 }

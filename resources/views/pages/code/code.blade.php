@@ -39,7 +39,7 @@
                     <div class="form-group">
                         {!! Form::label('code_path','Select source codes to upload (single file)') !!}
                         {!! Form::file('code_path',array('class'=>'')) !!}
-
+                        <span class="help-block" id="name_err">{{ $errors->first('code_path') }}</span>
                     </div>
                     <br>
                     <br>

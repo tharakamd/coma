@@ -15,8 +15,8 @@ return [
     */
 
     'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
+        'domain' => 'mg.codemarker.info',
+        'secret' => 'key-1df1a7691883970aa68e0513dd58e4be',
     ],
 
     'mandrill' => [
