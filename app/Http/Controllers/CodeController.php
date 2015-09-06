@@ -20,6 +20,8 @@ use App\Classes\Server\ServerCommunicator;
 use App\Classes\Server\JavaCompiler;
 use App\Http\Requests\uploadSingleCode;
 use App\Http\Requests\uploadBulkCode;
+use App\Classes\Server\Compiler;
+use App\Classes\Server\CompilerFactory;
 
 
 class CodeController extends Controller
@@ -52,7 +54,11 @@ class CodeController extends Controller
                     $code ->user_id = $user->id;
                     $code->save(); // adding new entry to the database
                 }
-                return view('pages.code.uploaded',array('status'=>'done','assignment'=>$assignment,'course'=>$course));
+                $codes = Code::where('user_id',$user->id)
+                    ->where('course_id',$course)
+                    ->where('assignment_id',$assignment)
+                    ->get();
+                return view('pages.code.code',compact('course','assignment','codes','user'));
             }
         }
         return view('pages.uploaded',array('status'=>'fail','assignment'=>$assignment,'course'=>$course));
@@ -102,8 +108,14 @@ class CodeController extends Controller
         return view('pages.code.code',compact('course','assignment','codes','user'));
     }
 
+    /**
+     * @param $course
+     * @param $assignment
+     * @return \Illuminate\View\View
+     */
     public function compileAll($course,$assignment){
-        $user = Auth::user();
+        $user = Auth::user(); // authenticated user
+        $compiler = CompilerFactory::createCompiler("java"); // pass a new value instead of java to make another compiler
         $java_compiler = JavaCompiler::getInstance(); // java compiler instance
         $results = $java_compiler->compile_recursive($user->id,$course,$assignment); // compile and get the results
         $codes = Code::where('course_id',$course)

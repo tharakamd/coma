@@ -9,6 +9,7 @@ class SshConnector {
     private $pass_wd = "94fbrgts5610k";
     private $home_folder = "/home/wbserver/srccodes";
     private $ssh_connection;
+
     /**
      * the function for create instances of the class SshConnector
      * since this is a Singleton class
@@ -65,39 +66,6 @@ class SshConnector {
     }
 
     /**
-     * @param $location
-     * @return mixed
-     *
-     * return true is succeded
-     * return false in failure
-     */
-    public function direct_to_location($location){
-
-        $out = $this->execute_command( 'cd '.$this->home_folder.$location);
-        if($out == ""){ // if no error
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * go to a directory from home directory
-     * @param $location
-     * @return mixed
-     */
-    public function direct_to_location_from_home($location){
-        $this->ssh_connection->exec('cd ~/srccodes');
-        return $this->ssh_connection->exec('pwd');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function get_directory(){
-        return $this->execute_command("pwd");
-    }
-
-    /**
      * remove the give n folder in the given directory
      * @param $dir
      * @param $folder
@@ -106,42 +74,6 @@ class SshConnector {
     public function delete_folder($dir,$folder){
         $command = "cd $dir && rm -r $folder"; // go the the directory and remove recursively
         return $this->execute_command($command);
-    }
-
-    public function compile_python($file){
-
-        return $this->execute_command("python ".$this->home_folder.$file);
-        // return $this->execute_command("./a.out");
-    }
-
-    /**
-     * compile a .java file
-     * returns the results of the compiler
-     * @return bool
-     */
-    public function compile_java($file){
-        return false;
-    }
-
-    /**
-     * go to the home directory
-     * @return mixed
-     */
-    public function go_to_home_dir(){
-        return $this->execute_command('cd ~');
-    }
-
-
-
-    // used functions
-
-    /**
-     * unzip file on the current directory
-     * @param $file
-     * @return mixed
-     */
-    public function unzip($file_dir,$file){
-        return $this->execute_command("cd $file_dir && unzip -o $file");
     }
 
     /**
@@ -154,6 +86,14 @@ class SshConnector {
         return $this->execute_command("cd $file_dir && rm $file");
     }
 
+    /**
+     * unzip file on the current directory
+     * @param $file
+     * @return mixed
+     */
+    public function unzip($file_dir,$file){
+        return $this->execute_command("cd $file_dir && unzip -o $file");
+    }
 
     /**
      * first go the the base directory

@@ -53,14 +53,12 @@ class FtpConnector {
         return false;
     }
 
-
     /**
      * close the ftp connection
      */
     public function close_connection(){
         ftp_close($this->ftp_connection);
     }
-
 
     /**
      * @param $folder_name
@@ -141,7 +139,6 @@ class FtpConnector {
     public function go_to_parent_directory(){
         return @ftp_cdup($this->ftp_connection);
     }
-
 
     /**
      * @return bool

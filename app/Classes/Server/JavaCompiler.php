@@ -11,7 +11,8 @@ namespace App\Classes\Server;
 use DB;
 use App\Classes\Server\Results;
 use App\Code;
-class JavaCompiler {
+use App\Classes\Server\Compiler;
+class JavaCompiler implements Compiler{
     private static $instance;
     private $severCommunicatior;
 
@@ -98,10 +99,6 @@ class JavaCompiler {
      * @param $course
      * @param $assignment
      * @return array
-     */
-
-    /*
-     * compile recursively and returns array of results
      */
     public function compile_recursive($user,$course,$assignment){
         $codes = $this->get_source_code_list($user,$course,$assignment); // the source code list to compile

@@ -99,6 +99,7 @@ class ServerCommunicator {
         $this->ssh_connector->delete($file_dir,$file_name); // deleting the file
         return true;
     }
+
     /*
      * upload a file to /uesr/subject/assignment/
      */
@@ -110,14 +111,6 @@ class ServerCommunicator {
     public function upload_file_special($user,$subject,$assignment,$special_folder,$file_path,$file_name){
         $this->go_to_directory_special($user,$subject,$assignment,$special_folder);
         return $this->ftp_connector->send_file($file_path,$file_name);
-    }
-    /*
-     *  compile a python file in /user/subject/assignment/
-     *  and return the results of compile
-     */
-    public function compile_a_file($user,$subject,$assignment,$file){
-        $file_dir = "/$user/$subject/$assignment/";
-        return $this->ssh_connector->compile_python($file_dir.$file);
     }
 
     /**
@@ -210,20 +203,6 @@ class ServerCommunicator {
      */
     public function execute_command($command){
         return $this->ssh_connector->execute_command($command);
-    }
-
-    /**
-     * return true if compile time errors found
-     * return false if successfully compiled
-     * @param $user
-     * @param $subject
-     * @param $assignment
-     * @param $file
-     * @return bool
-     */
-    public function check_compile_error_java($user,$subject,$assignment,$file){
-
-        return true;
     }
 
     /**

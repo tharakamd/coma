@@ -49,8 +49,10 @@ class AssignmentController extends Controller
                             $assignment->user_id = $user->id;
                             $assignment->course_id = $course;
                             $assignment->save(); // adding to the database
-                            $status = true;
-                            return view('pages.assignment.created',compact('status','course'));
+                            $assignments =  Assignment::where('user_id',$user->id)
+                                ->where('course_id',$course)
+                                ->get(); // read data from the database
+                            return view('pages.assignment.assignment',compact('assignments','course'));
                         }
                     }
                 }

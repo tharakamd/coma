@@ -11,16 +11,7 @@
 |
 */
 
-Route::get('/compiler','CompileController@index');
-Route::get('/go','CompileController@compile');
-Route::get('/test','CompileController@compile_test');
-Route::get('/upload','CompileController@upload_file');
-Route::get('/compile','CompileController@compile_file');
 Route::get('/contact','PagesController@contact');
-
-
-
-
 
 // Code routers
 Route::get('/code/{course}/{assignment}',['middleware'=>'auth','uses'=>'CodeController@listCodes']);
