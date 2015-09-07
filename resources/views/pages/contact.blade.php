@@ -9,17 +9,17 @@
         <div class="col-lg-8 panel panel-default">
             <div class="panel-body">
                 <h3>What is Coma</h3>
-                <p>It's<strong> Code Marker</strong> </p>
+                <p>It's Code Marker </p>
                 <h3>What it does</h3>
-                <p>It manages<strong> coding assignments</strong></p>
+                <p>It manages coding assignment</p>
                 <h3>How does it manage them</h3>
-                <p>Teachers can create an account, make new <strong>courses</strong> and <strong>assignments</strong> and upload <strong>Source Codes</strong></p>
+                <p>Teachers can create an account, make new courses and assignments and upload Source Codes</p>
                 <h3>Okay, then</h3>
-                <p>Then they can auto compile all the codes and get <strong>Marks</strong> of each code</p>
+                <p>Then they can auto compile all the codes and get Marks of each code</p>
                 <h3>What kind of codes</h3>
-                <p>In current version we only support <strong>Java</strong></p>
+                <p>In current version we only support Java</p>
                 <h3>Is this free</h3>
-                <p>Yes this is free and <strong>open source</strong></p>
+                <p>Yes this is free and open source</p>
                 <br>
                 <h3>Developers</h3>
                 <address>

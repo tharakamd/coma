@@ -22,7 +22,7 @@
         @yield('styleSheets')
         h1 { color: #456984; font-family: 'Raleway',sans-serif; font-size: 62px; font-weight: 800; line-height: 72px; margin: 0 0 24px; text-align: center; text-transform: uppercase; }
     </style>
-    <title>@yield('title')</title>
+    <title>Coma - Page not found</title>
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top">

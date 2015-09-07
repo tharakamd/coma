@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-lg-2"></div>
         <div class="col-lg-4">
-            <?php echo Form::open(array('action'=>array('AssignmentController@create_assignment','tharakamd',$course),'class'=>'form-horizontal','files'=>true, 'id'  => 'create_new_assignment_form')); ?>
+            <?php echo Form::open(array('action'=>array('AssignmentController@createAssignment',$course),9,'files'=>true, 'id'  => 'create_new_assignment_form')); ?>
 
             <div class="form-group">
                 <?php echo Form::label('assignment_id','Assignment ID'); ?>
@@ -48,7 +48,7 @@
                 <br>
                 <?php echo Form::submit('Add', array('class'=>'btn btn-primary')); ?>
 
-                <a href="<?php echo action('PagesController@assignment',$course); ?>" class="btn btn-default">Back to assignments</a>
+                <a href="<?php echo action('AssignmentController@listAssignments',$course); ?>" class="btn btn-default">Back to assignments</a>
             </div>
             <?php echo Form::close(); ?>
 

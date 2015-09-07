@@ -27,11 +27,13 @@
                 <tr>
                     <th>File Name</th>
                     <th>Status</th>
+                    <th>Marks</th>
                 </tr>
                 <?php foreach($codes as $code): ?>
                     <tr>
                         <td><?php echo e($code->name); ?></td>
                         <td><?php echo e($code->status); ?></td>
+                        <td><?php echo e(($code->marks)*100); ?></td>
                     </tr>
                 <?php endforeach; ?>
             </table>
